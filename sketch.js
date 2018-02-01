@@ -1,137 +1,150 @@
-var x1=450;
-var y1=200;
-
 var fC=0;
-
 var xPos=[];
 var yPos=[];
 
-var d=30;
+
+//////////////////////////////CUSTOM CHANGES
+var d=20; //distance we can jump
+var durationOneSquiggle=1000; //how many steps we take in one squiggle
+var controlDensity=100; //this is a control of density, from 0 to durationOneSquiggle
+// if we are in the very red region, we add this value to the duration of the squiggle, 
+// thus terminating it early
+// setting to 0 means we do not care about the density and only control is duration
+// setting to durationOneSquiggle means that is we randomly hit red near our last location
+// we terminate immediately
+var strokeW=2;//weight of the line
+var showImage=false;
+var imageAddress="assets/bottle.jpg";
+////////////////////////////////////////////////////////////////
 
 function preload(){
-    img=loadImage("assets/greece.jpg");
+    //preload bw image with threshold already applied (see examples)
+    img=loadImage(imageAddress);
 }
 
 function setup(){
     //create canvas
-    //img.resize(width,0);
-    createCanvas(900, 400);
-    img.resize(width,0);   
-    img.filter(POSTERIZE,6);
-    //img.filter(INVERT);
-    image(img,0,0);
-    
-    // change the frame rate to make slower
+    createCanvas(600, 800);
+    //resize the image to fit if not done already
+    img.resize(width,0); 
+ 
+    //un-comment below to check that it is ok (then image shows up)
+    if (showImage){
+        image(img,0,0);
+    }
+    // set the frame rate 
     frameRate(60);
+    //initialize the start
     initNew();
-
-
 
 }
 
 function draw(){ 
-    fC+=1;
+    fC+=1; //iterate the counter
 
-
-    // if (fC>100){
-    //     fC=0;
-    //     initNew();
-    // }
-
-    // else if (fC<5){
-    //     //background(0);
-    //     noFill();
-    //     stroke(255, 102, 0);
-    //     curveTightness(.1);
-    //     bezier(xPos[0],yPos[0],xPos[1],yPos[1],xPos[2],yPos[2],xPos[3],yPos[3]);
-    //     var newP=getNearFirst(xPos[3], yPos[3]);
-    //     xPos.push(newP[0]);
-    //     yPos.push(newP[1]);
-    //     xPos.splice(0,1);
-    //     yPos.splice(0,1);
-    //     //print(xPos);
-    // }
+    if (fC>durationOneSquiggle){ //spent too much time in this area, maybe there is some other disconneted region
+        fC=0;
+        initNew();
+    }
+    //get the number of elements in the curve position
     var l=xPos.length;
-    
-    
-    // if (c[0]==0){
-    //     d=1;
-    // }
-    // else{
-    //     d=20;
-    // }
-    //background(0);
+
     noFill();
     stroke(255, 102, 0);
     curveTightness(.01);
+
+    //draw the curve
+    strokeWeight(strokeW);
     curve(xPos[l-4],yPos[l-4],xPos[l-3],yPos[l-3],xPos[l-2],yPos[l-2],xPos[l-1],yPos[l-1]);
-    var c=1;
+    
     var newP=getNear(xPos[l-1], yPos[l-1]);
-    //print(newP)
-    while (c!=0){
-        var newP=getNear(xPos[l-1], yPos[l-1]);
-        c=img.get(newP[0], newP[1])[0];
-        print(c);
+    if (!newP[2]){initNew();} //counld not find any black around for many iters
+    else{
+        xPos.push(newP[0]);
+        yPos.push(newP[1]);
     }
-    xPos.push(newP[0]);
-    yPos.push(newP[1]);
-    //xPos.splice(0,1);
-    //yPos.splice(0,1);
-    //print(xPos);
+    print(get(newP[0],newP[1]));
 }
 
 function initNew(){
-        
+        fC=0;
         //initialize the position 
         xPos=[];
         yPos=[];
-        print(xPos);
+        //initialize the color
+        var c=(255,0,0);
+        //while we did not find black
+        while (c[0]!=0){
+            var x1=randomPosition()[0];
+            var y1=randomPosition()[1];
+            c=img.get(x1,y1); //get the color
+        }
+        //push it into the array
         xPos.push(x1);
         yPos.push(y1);
-    
+        //initialize other 4 elements (start)
         np=getNear(xPos[0],yPos[0]);
+        if (!np[2]){initNew();} //if we could not find black around
         xPos.push(np[0]);
         yPos.push(np[1]);
         
         np=getNear(xPos[1],yPos[1]);
+        if (!np[2]){initNew();}
         xPos.push(np[0]);
         yPos.push(np[1]);
     
         np=getNear(xPos[2],yPos[2]);
+        if (!np[2]){initNew();}
         xPos.push(np[0]);
         yPos.push(np[1]);
     
         np=getNear(xPos[3],yPos[3]);
+        if (!np[2]){initNew();}
         xPos.push(np[0]);
         yPos.push(np[1]);
+
 }
 
-function bezierC(xPos, yPos){}
 
 function getNear(x, y){
-    var angle=random(2*PI);
-    var xx=floor(d*sin(angle))+x;
-    if (xx<0){
-        xx=0;
+    //counter for number of attempts
+    var count =0;
+    // init color
+    var c=(200,0,0);
+    while (c[0]!=0 && count<70){
+        var angle=random(2*PI); //random angle
+        var xx=floor(d*sin(angle))+x; //get random x
+        if (xx<0){ //out of canvas
+            xx=0;
+        }
+        else if (xx>width){ //out of canvas
+            xx=width-1;
+        }
+        var yy=floor(d*cos(angle))+y; //get y
+        if (yy<0){ //out of canvas
+            yy=0;
+        }
+        else if (yy>height){
+            xx=height-1;
+        }
+        c=img.get(xx,yy); //get the color of the background image
+        c2=get(xx,yy);  //get the color on the canvas
+        if (c2[0]==255){ //if we hit the color - this is way too dense
+            //c[0]=255;
+            fC+=controlDensity; //might be bad luck hitting red so do not want to completely terminate yet
+        }
+        count+=1; //update counter
     }
-    else if (xx>width){
-        xx=width-1;
+    if (c[0]==0){ //if we are out of while loop and had success
+        var success=true;
     }
-    var yy=floor(d*cos(angle))+y;
-    if (yy<0){
-        yy=0;
+    else{
+        var success=false;
     }
-    else if (yy>height){
-        xx=height-1;
-    }
-    return [xx,yy];
+    return [xx,yy,success];
 }
 
-// function getNearFirst(x, y){
-//     var angle=random(2*PI);
-//     return [floor(d*sin(angle))+x,floor(d*cos(angle))+y];
-// }
-
-function randomPosition(){
-    return [floor(random(width)),floor(random(height))];
+function randomPosition(){ //random start
+    //we do not want to start at the very edges
+    return [floor(random(20,width-20)),floor(random(20, height-20))];
 }

@@ -1,12 +1,3 @@
-#title{
-    color: red;
-    font-family: serif;
-}
-
-#header4{
-    color: blueviolet;
-}
-
 body {
   margin: 0;
   display: flex;
