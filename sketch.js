@@ -5,7 +5,7 @@ var yPos=[];
 
 //////////////////////////////CUSTOM CHANGES
 var d=30; //distance we can jump
-var durationOneSquiggle=3000; //how many steps we take in one squiggle
+var durationOneSquiggle=1000; //how many steps we take in one squiggle
 var controlDensity=0; //this is a control of density, from 0 to durationOneSquiggle
 // if we are in the very red region, we add this value to the duration of the squiggle, 
 // thus terminating it early
