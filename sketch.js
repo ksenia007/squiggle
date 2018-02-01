@@ -12,7 +12,7 @@ var controlDensity=0; //this is a control of density, from 0 to durationOneSquig
 // setting to 0 means we do not care about the density and only control is duration
 // setting to durationOneSquiggle means that is we randomly hit red near our last location
 // we terminate immediately
-var strokeW=.5;//weight of the line
+var strokeW=1;//weight of the line
 var showImage=false;
 var imageAddress="assets/bottle.jpg";
 ////////////////////////////////////////////////////////////////
