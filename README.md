@@ -18,12 +18,12 @@ The code has values that can be easily changed to produce desirable results: the
 
 The idea behind the code - having the black/white photo we want to draw squiggly lines on top of the black region. The code starts randomly from one point, and every iteration of draw steps distance d to another black pixel. If the line is too long or gets stuck - it terminates and a new one is started. 
 
-The additional functions role: 
+The additional functions: 
 
-initNew() - initializes the new curve from random black pixel
+*initNew()* - initializes the new curve from random black pixel
 
-getNear() - finds a black pixel that is distance **d** from the current position
+*getNear()* - finds a black pixel that is distance **d** from the current position
 
-randomPosition() - returns [x, y] of the random position (20 pixels away from borders). 
+*randomPosition()* - returns [x, y] of the random position (20 pixels away from borders). 
 
 
