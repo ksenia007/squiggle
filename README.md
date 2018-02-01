@@ -1,6 +1,16 @@
 # Squiggle
 
-This code draws a squiggly line based on the high contrast black and white photo. 
+This code draws a squiggly line based on the high contrast black and white photo. Some exmaples of the images (for a live version go to: https://ksenia007.github.io/squiggle/)
+
+<p align="center">
+  <img src="results/sqBottle.jpg" width="1000"/>
+</p>
+<p align="center">
+  <img src="results/other.jpg" width="700"/>
+</p>
+<p align="center">
+  <img src="results/background.png" width="500"/>
+</p>
 
 The code has values that can be easily changed to produce desirable results: the length of the jump from one point to new (**d**), how manu steps we take in one line until starting new (**durationOneSquiggle**), control the maximum denisty of the line fill (**controlDensity**), the stroke weight (**strokeW**), whether to show the image or not when drawing (**showImage**) and finally the image address (**imageAddress**).
 
