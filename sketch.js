@@ -4,7 +4,7 @@ var yPos=[];
 
 
 //////////////////////////////CUSTOM CHANGES
-var d=20; //distance we can jump
+var d=30; //distance we can jump
 var durationOneSquiggle=1000; //how many steps we take in one squiggle
 var controlDensity=0; //this is a control of density, from 0 to durationOneSquiggle
 // if we are in the very red region, we add this value to the duration of the squiggle, 
@@ -130,7 +130,6 @@ function getNear(x, y){
         c=img.get(xx,yy); //get the color of the background image
         c2=get(xx,yy);  //get the color on the canvas
         if (c2[0]==255){ //if we hit the color - this is way too dense
-            //c[0]=255;
             fC+=controlDensity; //might be bad luck hitting red so do not want to completely terminate yet
         }
         count+=1; //update counter
