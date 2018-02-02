@@ -24,9 +24,9 @@ function preload(){
 
 function setup(){
     //create canvas
-    createCanvas(600, 800);
+    createCanvas(windowWidth, windowHeight);
     //resize the image to fit if not done already
-    img.resize(width,0); 
+    img.resize(windowWidth,0); 
  
     //un-comment below to check that it is ok (then image shows up)
     if (showImage){
