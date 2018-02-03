@@ -26,7 +26,7 @@ function setup(){
     //create canvas
     createCanvas(windowWidth, windowHeight);
     //resize the image to fit if not done already
-    img.resize(windowWidth,0); 
+    img.resize(0,windowHeight); 
  
     //un-comment below to check that it is ok (then image shows up)
     if (showImage){
