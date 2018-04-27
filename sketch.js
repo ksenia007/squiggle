@@ -25,7 +25,7 @@ function preload(){
 function setup(){
     //create canvas
     createCanvas(600, 800);
-    background(255);
+    background(0);
     //resize the image to fit if not done already
     img.resize(width,0); 
  
