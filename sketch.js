@@ -26,13 +26,14 @@ function setup(){
     //create canvas
     createCanvas(windowWidth, windowHeight);
     //resize the image to fit if not done already
-    img.resize(0,windowHeight); 
+    img.resize(windowWidth,0); 
  
     //un-comment below to check that it is ok (then image shows up)
     if (showImage){
         image(img,0,0);
     }
     // set the frame rate 
+    background(255);
     frameRate(60);
     //initialize the start
     initNew();
